@@ -1,16 +1,13 @@
-import {
-  Component, AfterViewInit,
-  ViewChild, ElementRef, ViewEncapsulation
-} from '@angular/core';
-
-import { NodeEditor, Engine } from 'rete';
-import { NumComponent } from './components/number-component';
-import { AddComponent } from './components/add-component';
-import { Plugin } from 'rete/types/core/plugin';
-import ConnectionPlugin from 'rete-connection-plugin';
-import Stage0RenderPlugin from 'rete-stage0-render-plugin';
+import {Component, ViewChild, ElementRef, ViewEncapsulation, OnInit} from '@angular/core';
+import {NodeEditor, Engine} from 'rete';
+import {NumComponent} from './components/number-component';
+import {AddComponent} from './components/add-component';
+import {Plugin} from 'rete/types/core/plugin';
 import {StringComponent} from "./components/string-component";
 import {StrJoinComponent} from "./components/str-join-component";
+import {SCHEMA} from './process-schema';
+import ConnectionPlugin from 'rete-connection-plugin';
+import Stage0RenderPlugin from 'rete-stage0-render-plugin';
 
 @Component({
     selector: 'app-rete',
@@ -19,65 +16,50 @@ import {StrJoinComponent} from "./components/str-join-component";
   encapsulation: ViewEncapsulation.None
 })
 
-export class ReteComponent implements AfterViewInit {
+export class ReteComponent implements OnInit {
 
   @ViewChild('nodeEditor') el: ElementRef;
-  editor = null;
 
-  async ngAfterViewInit() {
-    const self = this;
+  editor: NodeEditor;
+  engine: Engine;
+  components: any[];
 
-    const container = this.el.nativeElement;
+  ngOnInit() {
+    this.components = [
+      new NumComponent(),
+      new AddComponent(),
+      new StringComponent(),
+      new StrJoinComponent()
+    ];
+    this.editor = new NodeEditor(SCHEMA.id, this.el.nativeElement);
+    this.engine = new Engine(SCHEMA.id);
 
-    const components = [new NumComponent(), new AddComponent(),
-      new StringComponent(), new StrJoinComponent()];
+    this.editor.use(ConnectionPlugin as Plugin);
+    this.editor.use(Stage0RenderPlugin as Plugin);
 
-    const editor = new NodeEditor('demo@0.2.0', container);
-
-    editor.use(ConnectionPlugin as Plugin);
-    editor.use(Stage0RenderPlugin as Plugin);
-
-    const engine = new Engine('demo@0.2.0');
-    components.map(c => {
-      editor.register(c);
-      engine.register(c);
+    this.components.map(c => {
+      this.editor.register(c);
+      this.engine.register(c);
     });
 
-    const n1 = await components[0].createNode({ num: 2 });
-    const n2 = await components[0].createNode({ num: 0 });
-    const add = await components[1].createNode();
-    const s1 = await components[2].createNode({str : 'jeden'});
-    const s2 = await components[2].createNode({str : 'dwa'});
-    const strJoin = await components[3].createNode();
+    this.editor.on(['process', 'nodecreated', 'noderemoved', 'connectioncreated', 'connectionremoved'], () => {
+      if(this.editor.silent) return;
+      this.compile();
+    });
 
-    n1.position = [80, 25];
-    n2.position = [80, 220];
-    add.position = [500, 75];
+    this.editor.view.resize();
+    this.editor.trigger('process');
 
-    s1.position = [80, 500];
-    s2.position = [80, 750];
-    strJoin.position = [500, 650];
-
-    editor.addNode(n1);
-    editor.addNode(n2);
-    editor.addNode(add);
-
-    editor.addNode(s1);
-    editor.addNode(s2);
-    editor.addNode(strJoin);
-
-    editor.connect(n1.outputs.get('num'), add.inputs.get('num1'));
-    editor.connect(n2.outputs.get('num'), add.inputs.get('num2'));
-
-    editor.connect(s1.outputs.get('str'), strJoin.inputs.get('str1'));
-    editor.connect(s2.outputs.get('str'), strJoin.inputs.get('str2'));
-
-    editor.on(['process', 'nodecreated', 'noderemoved', 'connectioncreated', 'connectionremoved'], (async () => {
-      await engine.abort();
-      await engine.process(editor.toJSON());
-    }) as any);
-
-    editor.view.resize();
-    editor.trigger('process');
+    this.editor.fromJSON(SCHEMA).then( () => {
+      this.editor.view.resize();
+      this.compile();
+    });
   }
+
+  private async compile() {
+    await this.engine.abort();
+    await this.engine.process(this.editor.toJSON());
+  }
+
+
 }
