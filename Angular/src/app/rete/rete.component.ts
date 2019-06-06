@@ -8,7 +8,6 @@ import { NumComponent } from './components/number-component';
 import { AddComponent } from './components/add-component';
 import { Plugin } from 'rete/types/core/plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
-import ContextMenuPlugin from 'rete-context-menu-plugin';
 import Stage0RenderPlugin from 'rete-stage0-render-plugin';
 import {StringComponent} from "./components/string-component";
 import {StrJoinComponent} from "./components/str-join-component";
@@ -37,7 +36,6 @@ export class ReteComponent implements AfterViewInit {
 
     editor.use(ConnectionPlugin as Plugin);
     editor.use(Stage0RenderPlugin as Plugin);
-    editor.use(ContextMenuPlugin as Plugin);
 
     const engine = new Engine('demo@0.2.0');
     components.map(c => {
