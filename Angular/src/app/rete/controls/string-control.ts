@@ -1,10 +1,10 @@
 import { Control } from 'rete';
 
-const Stage0NumControl = {
-  template: '<input type="number"/>',
+const Stage0StrControl = {
+  template: '<input/>',
   data() {
     return {
-      value: 0
+      value: '-'
     };
   },
   methods: {
@@ -35,15 +35,15 @@ const Stage0NumControl = {
   }
 };
 
-export class NumControl extends Control {
+export class StringControl extends Control {
   component: any;
   props: any;
   private stage0Context: any;
 
   constructor(public emitter, public key, readonly = false) {
     super(key);
-    this.data.render = 'stage0';
-    this.component = Stage0NumControl;
+
+    this.component = Stage0StrControl;
     this.props = { emitter, ikey: key, readonly };
   }
 

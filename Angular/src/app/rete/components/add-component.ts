@@ -15,7 +15,7 @@ export class AddComponent extends Component {
     inp1.addControl(new NumControl(this.editor, 'num1'));
     inp2.addControl(new NumControl(this.editor, 'num2'));
 
-    node.addInput(inp1)
+    return node.addInput(inp1)
       .addInput(inp2)
       .addControl(new NumControl(this.editor, 'preview', true))
       .addOutput(out);
@@ -26,16 +26,11 @@ export class AddComponent extends Component {
     const n2 = inputs['num2'].length ? inputs['num2'][0] : node.data.num2;
     const sum = n1 + n2;
 
-    const ctrl = <NumControl> this.editor.nodes.find(n => n.id === node.id).controls.get('preview');
-    ctrl.setValue(sum);
-    outputs['num'] = sum;
-  }
 
-  created(node) {
-    console.log('created', node);
-  }
-
-  destroyed(node) {
-    console.log('destroyed', node);
+    this.editor.nodes
+      .find(n => n.id == node.id)
+      .controls.get("preview")
+      .setValue(sum);
+    outputs["num"] = sum;
   }
 }

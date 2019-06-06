@@ -28,8 +28,10 @@
     "rete-connection-plugin": "^0.6.4",
     "rete-context-menu-plugin": "^0.3.4",
     "rete-readonly-plugin": "^0.3.0",
+    "rete-stage0-render-plugin": "^0.2.14",
     "rete-vue-render-plugin": "^0.3.3",
     "rxjs": "^6.3.3",
+    "stage0": "0.0.24",
     "vue": "^2.6.5",
     "zone.js": "^0.8.26"
   },
@@ -52,6 +54,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
+    "tslint-angular": "^3.0.2",
     "typescript": "3.1.3"
   }
 }
