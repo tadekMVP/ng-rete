@@ -13,7 +13,7 @@ const Stage0StrControl = {
         this.putData(this.ikey, +this.root.value);
       }
 
-      this.emitter.trigger("process");
+      this.emitter.trigger('process');
     }
   },
   mounted() {

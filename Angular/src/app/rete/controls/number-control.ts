@@ -12,8 +12,7 @@ const Stage0NumControl = {
       if (this.root) {
         this.putData(this.ikey, +this.root.value);
       }
-
-      this.emitter.trigger("process");
+      this.emitter.trigger('process');
     }
   },
   mounted() {

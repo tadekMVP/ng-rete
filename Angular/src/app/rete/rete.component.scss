@@ -1,0 +1,16 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  .node-editor {
+    .node {
+      background-color: blue;
+      &.selected {
+        background-color: green;
+      }
+    }
+  }
+}
+
+.socket.number {
+  background: #96b38a;
+}

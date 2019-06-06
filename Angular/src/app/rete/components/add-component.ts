@@ -28,9 +28,9 @@ export class AddComponent extends Component {
 
 
     this.editor.nodes
-      .find(n => n.id == node.id)
-      .controls.get("preview")
+      .find(n => n.id === node.id)
+      .controls.get('preview')
       .setValue(sum);
-    outputs["num"] = sum;
+    outputs['num'] = sum;
   }
 }
