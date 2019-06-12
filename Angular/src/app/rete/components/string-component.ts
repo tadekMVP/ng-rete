@@ -3,7 +3,6 @@ import { stringSocket } from '../sockets';
 import {StringControl} from '../controls/string-control';
 
 export class StringComponent extends Component {
-
   constructor() {
     super('String');
   }

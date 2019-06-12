@@ -1,6 +1,8 @@
-export const SCHEMA = {
-  'id': 'demo@0.2.0',
-  'nodes': {
+import {Data} from 'rete/types/core/data';
+
+export const SCHEMA: Data = {
+  id: 'demo@0.2.0',
+  nodes: {
     '1': {
       'id': 1,
       'data': {
@@ -18,10 +20,7 @@ export const SCHEMA = {
           ]
         }
       },
-      'position': [
-        80,
-        25
-      ],
+      'position': [ 80, 25],
       'name': 'Number'
     },
     '2': {
@@ -160,6 +159,28 @@ export const SCHEMA = {
         650
       ],
       'name': 'StrJoin'
-    }
+    },
+  //   '7': {
+  //     'id': 7,
+  //     'data': {},
+  //     'inputs': {
+  //       'str1': {
+  //         'connections': [{}]
+  //       },
+  //       'str2': {
+  //         'connections': [{}]
+  //       }
+  //     },
+  //     'outputs': {
+  //       'str': {
+  //         'connections': []
+  //       }
+  //     },
+  //     'position': [
+  //       200,
+  //       200
+  //     ],
+  //     'name': 'Basic'
+  //   }
   }
 };

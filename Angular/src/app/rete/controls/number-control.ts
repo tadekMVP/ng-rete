@@ -1,52 +1,44 @@
 import { Control } from 'rete';
+import Vue from 'vue/dist/vue.esm';
 
-const Stage0NumControl = {
-  template: '<input type="number"/>',
+const VueNumControl = Vue.component('num', {
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'isreadonly'],
+  template: '<input type="number" :readonly="readonly" :value="value" @input="change($event)"/>',
   data() {
     return {
-      value: 0
+      value: 0,
     };
   },
   methods: {
+    change(e) {
+      this.value = +e.target.value;
+      this.update();
+    },
     update() {
-      if (this.root) {
-        this.putData(this.ikey, +this.root.value);
+      if (this.ikey) {
+        this.putData(this.ikey, this.value);
       }
       this.emitter.trigger('process');
     }
   },
   mounted() {
-    const _self = this;
-
-    this.root.value = this.getData(this.ikey);
-
-    this.root.onkeyup = function(e) {
-      _self.root.update();
-    };
-
-    this.root.onmouseup = function(e) {
-      _self.root.update();
-    };
-
-    this.root.ondblclick = function(e) {
-      e.stopPropagation();
-    };
+    this.value = this.getData(this.ikey);
   }
-};
+});
 
 export class NumControl extends Control {
   component: any;
   props: any;
-  private stage0Context: any;
+  vueContext: any;
 
   constructor(public emitter, public key, readonly = false) {
     super(key);
-    this.data.render = 'stage0';
-    this.component = Stage0NumControl;
+
+    this.component = VueNumControl;
     this.props = { emitter, ikey: key, readonly };
   }
 
   setValue(val) {
-    this.stage0Context.root.value = val;
+    this.vueContext.value = val;
   }
 }

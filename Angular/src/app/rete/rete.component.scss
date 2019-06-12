@@ -1,16 +1,71 @@
+
+
+$blue: #3bafda;
+$indigo: #675aa9;
+$purple: #6559cc;
+$pink: #f672a7;
+$red: #f1556c;
+$orange: #fd7e14;
+$yellow: #f7b84b;
+$green: #1abc9c;
+$teal: #02a8b5;
+$cyan: #37cde6;
+
+$accent-blue: #2fb5fa;
+$info:          $cyan !default;
+
+$body-color: #a8b5c3;
+$gray-200: #36404a;
+
+$input-bg: lighten($gray-200, 5%);
+$card-bg: $gray-200;
+$legend-bg-color: lighten($card-bg, 5%) !default;
+
 .wrapper {
   width: 100%;
   height: 100%;
+  background-color: #323b44;
   .node-editor {
     .node {
-      background-color: blue;
-      &.selected {
-        background-color: green;
+      border: none;
+      border-radius: .25rem;
+      background-color: $card-bg;
+      .title,
+      .output-title,
+      .input-title {
+        color: $body-color
       }
+      .title {
+        display: block;
+        margin-bottom: 5px;
+        background-color: $legend-bg-color;
+      }
+      .control {
+        padding: 18px 18px 6px 18px;
+        input {
+
+        }
+      }
+      .socket {
+        background-color: $info;
+      }
+      &:hover, &.selected {
+        background-color: $legend-bg-color;
+      }
+    }
+    svg path {
+      stroke: $blue;
+    }
+  }
+  &.readonly-mode {
+    .socket, input {
+      pointer-events: none;
     }
   }
 }
 
-.socket.number {
-  background: #96b38a;
-}
+//.socket.number {
+//  background: #96b38a;
+//}
+
+

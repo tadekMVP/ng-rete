@@ -2,8 +2,8 @@ import { Control } from 'rete';
 import Vue from 'vue/dist/vue.esm';
 
 const VueNumControl = Vue.component('num', {
-  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
-  template: '<input :readonly="readonly" :value="value" @input="change($event)"/>',
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'isreadonly'],
+  template: '<div>{{value}}</div>',
   data() {
     return {
       value: 0,
@@ -26,7 +26,7 @@ const VueNumControl = Vue.component('num', {
   }
 });
 
-export class StringControl extends Control {
+export class ReadonlyControl extends Control {
   component: any;
   props: any;
   vueContext: any;

@@ -3,7 +3,6 @@ import { numSocket } from '../sockets';
 import { NumControl } from '../controls/number-control';
 
 export class NumComponent extends Component {
-
   constructor() {
     super('Number');
   }
@@ -14,6 +13,7 @@ export class NumComponent extends Component {
   }
 
   worker(node, inputs, outputs) {
+    console.log('number worker');
     outputs['num'] = node.data.num;
   }
 
